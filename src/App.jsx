@@ -120,7 +120,7 @@ export default function App() {
 
 	return (
 		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-slate-500 p-2">
-			<div className="flex h-full w-full md:h-[480px] md:w-[580px] flex-col place-content-between items-start bg-white p-0">
+			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 md:h-[480px] md:w-[580px]">
 				{/* <----------------------------Top Row-------------------------------------> */}
 				<div className="flex h-24 w-full flex-col items-center gap-2 bg-gray-500 p-0">
 					<div className="flex h-24 w-56 flex-row items-center justify-center rounded-b-3xl bg-gray-400 text-sm">
@@ -141,7 +141,7 @@ export default function App() {
 					</button>
 					{idleMenu && (
 						/* Displays a button for each object in ClickStore */
-						<div className="absolute bottom-16 flex h-[360px] w-[580px] flex-col bg-gray-500 text-sm">
+						<div className="absolute bottom-12 flex h-1/2 w-full flex-col bg-gray-500 p-3 text-sm md:bottom-16 md:h-[360px] md:w-[580px]">
 							{idleStore.map((upgrade) => (
 								<div className="flex flex-row bg-gray-300 px-5 py-3">
 									<span className="mr-auto w-fit text-left">
@@ -164,7 +164,7 @@ export default function App() {
 
 					{clickMenu && (
 						/* Displays a button for each object in ClickStore */
-						<div className="absolute bottom-16 flex h-[360px] w-[580px] flex-col bg-gray-500 text-sm">
+						<div className="absolute bottom-12 flex h-1/2 w-full flex-col bg-gray-500 p-3 text-sm md:bottom-16 md:h-[360px] md:w-[580px]">
 							{clickStore.map((upgrade) => (
 								<div className="flex flex-row bg-gray-300 px-5 py-3">
 									<span className="mr-auto w-fit text-left">
@@ -186,7 +186,7 @@ export default function App() {
 					)}
 
 					{saveMenu && (
-						<div className="absolute bottom-16 flex h-[360px] w-[580px] flex-col justify-center bg-gray-500 text-sm">
+						<div className="absolute bottom-12 flex h-1/2 w-full flex-col bg-gray-500 p-3 text-sm md:bottom-16 md:h-[360px] md:w-[580px]">
 							<button
 								className="rounded-xl bg-gray-600 p-2 text-center text-white"
 								onClick={saveFile}
@@ -220,6 +220,8 @@ export default function App() {
 				<div className="flex h-12 w-full flex-row items-start bg-gray-400 p-0">
 					<button
 						onClick={() => {
+							idleMenu ? setIdleMenu(false) : null
+							saveMenu ? setSaveMenu(false) : null
 							setClickMenu(!clickMenu)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
@@ -228,6 +230,8 @@ export default function App() {
 					</button>
 					<button
 						onClick={() => {
+							clickMenu ? setClickMenu(false) : null
+							saveMenu ? setSaveMenu(false) : null
 							setIdleMenu(!idleMenu)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
@@ -236,6 +240,8 @@ export default function App() {
 					</button>
 					<button
 						onClick={() => {
+							idleMenu ? setIdleMenu(false) : null
+							clickMenu ? setClickMenu(false) : null
 							setSaveMenu(!saveMenu)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
