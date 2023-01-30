@@ -169,8 +169,8 @@ export default function App() {
 	}, [clickMessages])
 
 	return (
-		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-slate-500 p-2">
-			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 md:h-[480px] md:w-[580px]">
+		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-slate-500 p-2 font-poppins">
+			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 md:h-[800px] md:w-[580px]">
 				{/* <----------------------------Top Row-------------------------------------> */}
 				<div className="flex h-24 w-full flex-col items-center gap-2 bg-gray-500 p-0">
 					<div className=" h-fit w-fit rounded-xl bg-gray-300 bg-opacity-50 p-2">
@@ -185,7 +185,7 @@ export default function App() {
 						return (
 							<span
 								key={index}
-								className="absolute bottom-1/4 animate-slideup text-black md:bottom-[45%]"
+								className="absolute bottom-[30%] animate-slideup text-2xl text-black md:bottom-[45%]"
 							>
 								{msg}
 							</span>

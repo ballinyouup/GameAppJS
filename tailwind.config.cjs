@@ -2,6 +2,17 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx}'],
   theme: {
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px'
+    },
+    fontFamily: {
+      poppins: ['poppins'],
+      sans: ['Graphik', 'sans-serif'],
+      serif: ['Merriweather', 'serif']
+    },
     extend: {
       keyframes: {
         slideup: {
