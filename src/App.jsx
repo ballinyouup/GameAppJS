@@ -187,7 +187,7 @@ export default function App() {
 								key={index}
 								className="absolute bottom-[30%] animate-slideup text-2xl text-black md:bottom-[45%]"
 							>
-								{msg}
+								{Number(msg).toFixed(1)}
 							</span>
 						)
 					})}
