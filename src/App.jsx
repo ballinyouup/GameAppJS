@@ -6,7 +6,7 @@ export default function App() {
 	const [clickMultiplier, setClickMultiplier] = useState(1)
 	const [message, setMessage] = useState("")
 	const [clickMessages, setClickMessages] = useState([])
-	const clickMessagesLength = 5
+	const clickMessagesLength = 10
 	const [idleMenu, setIdleMenu] = useState(false)
 	const [clickMenu, setClickMenu] = useState(false)
 	const [saveMenu, setSaveMenu] = useState(false)
