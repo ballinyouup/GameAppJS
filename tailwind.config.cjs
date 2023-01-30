@@ -9,7 +9,7 @@ module.exports = {
       xl: '1440px'
     },
     fontFamily: {
-      poppins: ['poppins'],
+      poppins: ['Poppins', 'Inter', 'system-ui'],
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif']
     },
