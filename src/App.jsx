@@ -80,18 +80,13 @@ export default function App() {
 
 	function handleClick() {
 		increaseScore(clickMultiplier)
-		if (clickMessages.length === clickMessagesLength) {
-			clickMessages[0] = (
-				<span key={0}>{Number(clickMultiplier).toFixed(1)}</span>
-			)
-		} else {
-			setClickMessages([
-				...clickMessages,
-				<span key={clickMessages.length}>
-					{Number(clickMultiplier).toFixed(1)}
-				</span>,
-			])
-		}
+
+		setClickMessages([
+			...clickMessages,
+			<span key={clickMessages.length}>
+				{Number(clickMultiplier).toFixed(1)}
+			</span>,
+		])
 	}
 
 	function handleIdleUpgrade(upgradeName) {
@@ -161,12 +156,10 @@ export default function App() {
 	}, [score])
 
 	useEffect(() => {
-		let timerId
-		if (clickMessages.length) {
-			timerId = setTimeout(() => {
-				setClickMessages(clickMessages.slice(1))
-			}, 300)
-		}
+		let timerId = setTimeout(() => {
+			setClickMessages(clickMessages.slice(1))
+		}, 300)
+
 		return () => {
 			clearTimeout(timerId)
 		}
