@@ -5,6 +5,8 @@ export default function App() {
 	const [idleMultiplier, setIdleMultiplier] = useState(0.05)
 	const [clickMultiplier, setClickMultiplier] = useState(1)
 	const [message, setMessage] = useState("")
+	const [clickMessages, setClickMessages] = useState([])
+	const clickMessagesLength = 5
 	const [idleMenu, setIdleMenu] = useState(false)
 	const [clickMenu, setClickMenu] = useState(false)
 	const [saveMenu, setSaveMenu] = useState(false)
@@ -27,13 +29,13 @@ export default function App() {
 			multiplier: 1.5,
 			level: 0,
 		},
-    {
+		{
 			name: "Idle Upgrade 4",
 			cost: 500000,
 			multiplier: 1.75,
 			level: 0,
 		},
-    {
+		{
 			name: "Idle Upgrade 5",
 			cost: 10000000,
 			multiplier: 2,
@@ -59,13 +61,13 @@ export default function App() {
 			multiplier: 1.6,
 			level: 0,
 		},
-    {
+		{
 			name: "Click Upgrade 4",
 			cost: 500000,
 			multiplier: 1.8,
 			level: 0,
 		},
-    {
+		{
 			name: "Click Upgrade 5",
 			cost: 10000000,
 			multiplier: 2,
@@ -74,6 +76,18 @@ export default function App() {
 	])
 	const increaseScore = (multiplier) => {
 		setScore(score + multiplier)
+	}
+
+	function handleClick() {
+		increaseScore(clickMultiplier)
+		if (clickMessages.length === clickMessagesLength) {
+			clickMessages[0] = <span key={0}>{clickMultiplier}</span>
+		} else {
+			setClickMessages([
+				...clickMessages,
+				<span key={clickMessages.length}>{clickMultiplier}</span>,
+			])
+		}
 	}
 
 	function handleIdleUpgrade(upgradeName) {
@@ -142,24 +156,45 @@ export default function App() {
 		return () => clearInterval(timer)
 	}, [score])
 
+	useEffect(() => {
+		let timerId
+		if (clickMessages.length) {
+			timerId = setTimeout(() => {
+				setClickMessages(clickMessages.slice(1))
+			}, 300)
+		}
+		return () => {
+			clearTimeout(timerId)
+		}
+	}, [clickMessages])
+
 	return (
 		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-slate-500 p-2">
 			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 md:h-[480px] md:w-[580px]">
 				{/* <----------------------------Top Row-------------------------------------> */}
 				<div className="flex h-24 w-full flex-col items-center gap-2 bg-gray-500 p-0">
-					<div className="flex h-24 w-56 flex-row items-center justify-center rounded-b-3xl bg-gray-400 text-sm">
-						<div className=" h-fit w-fit rounded-xl bg-gray-300 bg-opacity-50 p-2">
-							<h1>Score: {Number(score).toFixed(1)}</h1>
-							<h1>{Number(idleMultiplier * 20).toFixed(1)} Coins/s </h1>
-							<h1>{Number(clickMultiplier).toFixed(1)} Coins/click</h1>
-						</div>
+					<div className=" h-fit w-fit rounded-xl bg-gray-300 bg-opacity-50 p-2">
+						<h1>Score: {Number(score).toFixed(1)}</h1>
+						<h1>{Number(idleMultiplier * 20).toFixed(1)} Coins/s </h1>
+						<h1>{Number(clickMultiplier).toFixed(1)} Coins/click</h1>
 					</div>
 				</div>
 				{/* <----------------------------Center Row-------------------------------------> */}
 				<div className="z-0 flex h-full w-full flex-col items-center justify-end bg-white p-2">
+					{clickMessages.map((msg, index) => {
+						return (
+							<span
+								key={index}
+								className="absolute bottom-1/4 animate-slideup text-black md:bottom-[45%]"
+							>
+								{msg}
+							</span>
+						)
+					})}
+					{/* <----------------------------Click Button-------------------------------------> */}
 					<button
 						className="h-32 w-32 rounded-full bg-gray-400"
-						onClick={() => increaseScore(clickMultiplier)}
+						onClick={handleClick}
 					>
 						Click!
 					</button>
@@ -170,7 +205,8 @@ export default function App() {
 								<div className="flex flex-row bg-gray-300 px-5 py-3">
 									<span className="mr-auto w-fit text-left">
 										Level: {upgrade.level + " / "}
-										Price: {upgrade.cost + " / "}<br />
+										Price: {upgrade.cost + " / "}
+										<br />
 										Multiplier: {upgrade.multiplier}
 									</span>
 									<button
@@ -193,7 +229,8 @@ export default function App() {
 								<div className="flex flex-row bg-gray-300 px-5 py-3">
 									<span className="mr-auto w-fit text-left">
 										Level: {upgrade.level + " / "}
-										Price: {upgrade.cost + " / "}<br />
+										Price: {upgrade.cost + " / "}
+										<br />
 										Multiplier: {upgrade.multiplier}
 									</span>
 									<button
@@ -244,8 +281,8 @@ export default function App() {
 				<div className="flex h-12 w-full flex-row items-start bg-gray-400 p-0">
 					<button
 						onClick={() => {
-							idleMenu ? setIdleMenu(false) : null
-							saveMenu ? setSaveMenu(false) : null
+							idleMenu && setIdleMenu(false)
+							saveMenu && setSaveMenu(false)
 							setClickMenu(!clickMenu)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
@@ -254,8 +291,8 @@ export default function App() {
 					</button>
 					<button
 						onClick={() => {
-							clickMenu ? setClickMenu(false) : null
-							saveMenu ? setSaveMenu(false) : null
+							clickMenu && setClickMenu(false)
+							saveMenu && setSaveMenu(false)
 							setIdleMenu(!idleMenu)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
