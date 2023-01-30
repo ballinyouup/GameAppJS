@@ -81,11 +81,15 @@ export default function App() {
 	function handleClick() {
 		increaseScore(clickMultiplier)
 		if (clickMessages.length === clickMessagesLength) {
-			clickMessages[0] = <span key={0}>{clickMultiplier}</span>
+			clickMessages[0] = (
+				<span key={0}>{Number(clickMultiplier).toFixed(1)}</span>
+			)
 		} else {
 			setClickMessages([
 				...clickMessages,
-				<span key={clickMessages.length}>{clickMultiplier}</span>,
+				<span key={clickMessages.length}>
+					{Number(clickMultiplier).toFixed(1)}
+				</span>,
 			])
 		}
 	}
@@ -187,7 +191,7 @@ export default function App() {
 								key={index}
 								className="absolute bottom-[30%] animate-slideup text-2xl text-black md:bottom-[45%]"
 							>
-								{Number(msg).toFixed(1)}
+								{msg}
 							</span>
 						)
 					})}
@@ -271,7 +275,7 @@ export default function App() {
 						</div>
 					)}
 					{message !== "" && (
-						<div className="absolute top-1/2 left-1/2 flex -translate-x-2/4 -translate-y-1/2 flex-col items-center justify-end bg-slate-700">
+						<div className="absolute top-1/2 left-1/2 flex -translate-x-2/4 -translate-y-1/2 flex-col items-center justify-end bg-slate-700 p-3 text-xl text-white">
 							{message}
 							<button onClick={() => setMessage("")}> X </button>
 						</div>
