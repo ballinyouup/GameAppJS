@@ -21,7 +21,7 @@ module.exports = {
         }
       },
       animation: {
-        slideup: 'slideup 1000ms'
+        slideup: 'slideup 200ms'
       }
     }
   },

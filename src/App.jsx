@@ -6,7 +6,7 @@ export default function App() {
 	const [clickMultiplier, setClickMultiplier] = useState(1)
 	const [message, setMessage] = useState("")
 	const [clickMessages, setClickMessages] = useState([])
-	const clickMessagesLength = 10
+	const clickMessagesLength = 5
 	const [idleMenu, setIdleMenu] = useState(false)
 	const [clickMenu, setClickMenu] = useState(false)
 	const [saveMenu, setSaveMenu] = useState(false)
@@ -80,7 +80,6 @@ export default function App() {
 
 	function handleClick() {
 		increaseScore(clickMultiplier)
-
 		setClickMessages([
 			...clickMessages,
 			<span key={clickMessages.length}>
@@ -156,12 +155,14 @@ export default function App() {
 	}, [score])
 
 	useEffect(() => {
-		let timerId = setTimeout(() => {
-			setClickMessages(clickMessages.slice(1))
-		}, 300)
-
+		const timer = setInterval(
+			() => {
+				setClickMessages(clickMessages.slice(1))
+			},
+			clickMessages.length <= clickMessagesLength ? 200 : 100
+		)
 		return () => {
-			clearTimeout(timerId)
+			clearInterval(timer)
 		}
 	}, [clickMessages])
 
