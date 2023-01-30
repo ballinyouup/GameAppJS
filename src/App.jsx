@@ -12,19 +12,31 @@ export default function App() {
 		{
 			name: "Idle Upgrade 1",
 			cost: 20,
-			multiplier: 1.5,
+			multiplier: 1.05,
 			level: 0,
 		},
 		{
 			name: "Idle Upgrade 2",
-			cost: 200,
-			multiplier: 2,
+			cost: 1000,
+			multiplier: 1.3,
 			level: 0,
 		},
 		{
 			name: "Idle Upgrade 3",
-			cost: 1000,
-			multiplier: 2.5,
+			cost: 10000,
+			multiplier: 1.5,
+			level: 0,
+		},
+    {
+			name: "Idle Upgrade 4",
+			cost: 500000,
+			multiplier: 1.75,
+			level: 0,
+		},
+    {
+			name: "Idle Upgrade 5",
+			cost: 10000000,
+			multiplier: 2,
 			level: 0,
 		},
 	])
@@ -32,19 +44,31 @@ export default function App() {
 		{
 			name: "Click Upgrade 1",
 			cost: 20,
-			multiplier: 1.5,
+			multiplier: 1.1,
 			level: 0,
 		},
 		{
 			name: "Click Upgrade 2",
-			cost: 200,
-			multiplier: 2,
+			cost: 1000,
+			multiplier: 1.2,
 			level: 0,
 		},
 		{
 			name: "Click Upgrade 3",
-			cost: 1000,
-			multiplier: 2.5,
+			cost: 10000,
+			multiplier: 1.6,
+			level: 0,
+		},
+    {
+			name: "Click Upgrade 4",
+			cost: 500000,
+			multiplier: 1.8,
+			level: 0,
+		},
+    {
+			name: "Click Upgrade 5",
+			cost: 10000000,
+			multiplier: 2,
 			level: 0,
 		},
 	])
@@ -146,7 +170,7 @@ export default function App() {
 								<div className="flex flex-row bg-gray-300 px-5 py-3">
 									<span className="mr-auto w-fit text-left">
 										Level: {upgrade.level + " / "}
-										Price: {upgrade.cost + " / "}
+										Price: {upgrade.cost + " / "}<br />
 										Multiplier: {upgrade.multiplier}
 									</span>
 									<button
@@ -169,7 +193,7 @@ export default function App() {
 								<div className="flex flex-row bg-gray-300 px-5 py-3">
 									<span className="mr-auto w-fit text-left">
 										Level: {upgrade.level + " / "}
-										Price: {upgrade.cost + " / "}
+										Price: {upgrade.cost + " / "}<br />
 										Multiplier: {upgrade.multiplier}
 									</span>
 									<button
