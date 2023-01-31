@@ -20,7 +20,7 @@ export default function App() {
 		{
 			name: "Idle Upgrade 2",
 			cost: 1000,
-			multiplier: 1.3,
+			multiplier: 1.25,
 			level: 0,
 		},
 		{
@@ -52,7 +52,7 @@ export default function App() {
 		{
 			name: "Click Upgrade 2",
 			cost: 1000,
-			multiplier: 1.2,
+			multiplier: 1.35,
 			level: 0,
 		},
 		{
@@ -90,12 +90,21 @@ export default function App() {
 
 	function handleIdleUpgrade(upgradeName) {
 		if (score > upgradeName.cost) {
-			const updatedStore = idleStore.map((upgrade) => {
+			const updatedStore = idleStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
-					return {
-						...upgrade,
-						cost: upgrade.cost * 2,
-						level: upgrade.level + 1,
+					if (upgrade.level % 10 === 0 && index !== 0) {
+						return {
+							...upgrade,
+							cost: Number(upgrade.cost * 1.2).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 2).toFixed(1),
+							level: upgrade.level + 1,
+						}
+					} else {
+						return {
+							...upgrade,
+							cost: Number(upgrade.cost * 1.2).toFixed(1),
+							level: upgrade.level + 1,
+						}
 					}
 				}
 				return upgrade
@@ -103,17 +112,28 @@ export default function App() {
 			setIdleStore(updatedStore)
 			setScore(score - upgradeName.cost)
 			setIdleMultiplier(idleMultiplier * upgradeName.multiplier)
-		} else setMessage("Not enough Money")
+		} else {
+			setMessage("Not enough Money")
+		}
 	}
 
 	function handleClickUpgrade(upgradeName) {
 		if (score > upgradeName.cost) {
-			const updatedStore = clickStore.map((upgrade) => {
+			const updatedStore = clickStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
-					return {
-						...upgrade,
-						cost: upgrade.cost * 2,
-						level: upgrade.level + 1,
+					if (upgrade.level % 10 === 0 && index !== 0) {
+						return {
+							...upgrade,
+							cost: Number(upgrade.cost * 1.2).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 2).toFixed(1),
+							level: upgrade.level + 1,
+						}
+					} else {
+						return {
+							...upgrade,
+							cost: Number(upgrade.cost * 1.2).toFixed(1),
+							level: upgrade.level + 1,
+						}
 					}
 				}
 				return upgrade
@@ -199,8 +219,11 @@ export default function App() {
 					{idleMenu && (
 						/* Displays a button for each object in ClickStore */
 						<div className="absolute bottom-12 flex h-1/2 w-full flex-col bg-gray-500 p-3 text-sm md:bottom-16 md:h-[360px] md:w-[580px]">
-							{idleStore.map((upgrade) => (
-								<div className="flex flex-row bg-gray-300 px-5 py-3">
+							{idleStore.map((upgrade, index) => (
+								<div
+									key={index}
+									className="flex flex-row bg-gray-300 px-5 py-3"
+								>
 									<span className="mr-auto w-fit text-left">
 										Level: {upgrade.level + " / "}
 										Price: {upgrade.cost + " / "}
@@ -223,8 +246,11 @@ export default function App() {
 					{clickMenu && (
 						/* Displays a button for each object in ClickStore */
 						<div className="absolute bottom-12 flex h-1/2 w-full flex-col bg-gray-500 p-3 text-sm md:bottom-16 md:h-[360px] md:w-[580px]">
-							{clickStore.map((upgrade) => (
-								<div className="flex flex-row bg-gray-300 px-5 py-3">
+							{clickStore.map((upgrade, index) => (
+								<div
+									key={index}
+									className="flex flex-row bg-gray-300 px-5 py-3"
+								>
 									<span className="mr-auto w-fit text-left">
 										Level: {upgrade.level + " / "}
 										Price: {upgrade.cost + " / "}
