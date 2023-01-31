@@ -1,80 +1,54 @@
 import { useState, useEffect } from "react"
 
 export default function App() {
+	const INITIAL_IDLE = 0.05
+	const INITIAL_CLICK = 1
+	const INITIAL_CLICKMSG_LENGTH = 1
+	const INITIAL_IDLE_COST = 20
+	const INITIAL_CLICK_COST = 20
 	const [score, setScore] = useState(0)
-	const [idleMultiplier, setIdleMultiplier] = useState(0.05)
-	const [clickMultiplier, setClickMultiplier] = useState(1)
+	const [idleMultiplier, setIdleMultiplier] = useState(INITIAL_IDLE)
+	const [clickMultiplier, setClickMultiplier] = useState(INITIAL_CLICK)
 	const [message, setMessage] = useState("")
 	const [clickMessages, setClickMessages] = useState([])
-	const clickMessagesLength = 5
+	const clickMessagesLength = INITIAL_CLICKMSG_LENGTH
 	const [idleMenu, setIdleMenu] = useState(false)
 	const [clickMenu, setClickMenu] = useState(false)
 	const [saveMenu, setSaveMenu] = useState(false)
-	const [idleStore, setIdleStore] = useState([
-		{
-			name: "Idle Upgrade 1",
-			cost: 20,
-			multiplier: 1.05,
-			level: 0,
-		},
-		{
-			name: "Idle Upgrade 2",
-			cost: 1000,
-			multiplier: 1.25,
-			level: 0,
-		},
-		{
-			name: "Idle Upgrade 3",
-			cost: 10000,
-			multiplier: 1.5,
-			level: 0,
-		},
-		{
-			name: "Idle Upgrade 4",
-			cost: 500000,
-			multiplier: 1.75,
-			level: 0,
-		},
-		{
-			name: "Idle Upgrade 5",
-			cost: 10000000,
-			multiplier: 2,
-			level: 0,
-		},
-	])
-	const [clickStore, setClickStore] = useState([
-		{
-			name: "Click Upgrade 1",
-			cost: 20,
-			multiplier: 1.1,
-			level: 0,
-		},
-		{
-			name: "Click Upgrade 2",
-			cost: 1000,
-			multiplier: 1.35,
-			level: 0,
-		},
-		{
-			name: "Click Upgrade 3",
-			cost: 10000,
-			multiplier: 1.6,
-			level: 0,
-		},
-		{
-			name: "Click Upgrade 4",
-			cost: 500000,
-			multiplier: 1.8,
-			level: 0,
-		},
-		{
-			name: "Click Upgrade 5",
-			cost: 10000000,
-			multiplier: 2,
-			level: 0,
-		},
-	])
-	const increaseScore = (multiplier) => {
+	const [idleStore, setIdleStore] = useState([])
+	const [clickStore, setClickStore] = useState([])
+
+	function createClickStore() {
+		let store = []
+
+		for (let i = 1; i <= 11; i++) {
+			store.push({
+				name: `Click Upgrade ${i}`,
+				cost: INITIAL_CLICK_COST * Math.pow(4, i - 1),
+				multiplier: Number(1.1 + (i - 1) * 0.05).toFixed(2),
+				level: 0,
+			})
+		}
+
+		setClickStore(store)
+	}
+
+	function createIdleStore() {
+		let store = []
+
+		for (let i = 1; i <= 11; i++) {
+			store.push({
+				name: `Idle Upgrade ${i}`,
+				cost: INITIAL_IDLE_COST * Math.pow(4, i - 1),
+				multiplier: Number(1.05 + (i - 1) * 0.05).toFixed(2),
+				level: 0,
+			})
+		}
+
+		setIdleStore(store)
+	}
+
+	function increaseScore(multiplier) {
 		setScore(score + multiplier)
 	}
 
@@ -83,20 +57,22 @@ export default function App() {
 		setClickMessages([
 			...clickMessages,
 			<span key={clickMessages.length}>
-				{Number(clickMultiplier).toFixed(1)}
+				{"+" + Number(clickMultiplier).toFixed(2)}
 			</span>,
 		])
 	}
 
 	function handleIdleUpgrade(upgradeName) {
 		if (score > upgradeName.cost) {
+			setScore(score - upgradeName.cost)
+			setIdleMultiplier(idleMultiplier * upgradeName.multiplier)
 			const updatedStore = idleStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level % 10 === 0 && index !== 0) {
+					if (index !== 0 && upgrade.level % 10 === 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.2).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 2).toFixed(1),
+							cost: Number(upgrade.cost * 1.5).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 1.2).toFixed(1),
 							level: upgrade.level + 1,
 						}
 					} else {
@@ -110,22 +86,65 @@ export default function App() {
 				return upgrade
 			})
 			setIdleStore(updatedStore)
-			setScore(score - upgradeName.cost)
-			setIdleMultiplier(idleMultiplier * upgradeName.multiplier)
 		} else {
 			setMessage("Not enough Money")
 		}
 	}
 
+	function FormatNumber(number) {
+		const ONEK = 1000
+		const MIL = 1_000_000
+		const BIL = MIL * ONEK
+		const TRIL = BIL * ONEK
+		const QUAD = TRIL * ONEK
+		const QUINT = QUAD * ONEK
+		const SEXT = QUINT * ONEK
+		const SEPT = SEXT * ONEK
+		const OCTI = SEPT * ONEK
+		const NONI = OCTI * ONEK
+		const DECI = NONI * ONEK
+		switch (true) {
+			case number < ONEK - 1:
+				return number.toFixed(2)
+			case number < MIL - 1:
+				return (number / ONEK).toFixed(1) + "K"
+			case number > MIL:
+				return (number / MIL).toFixed(1) + "Mil"
+			case number > BIL:
+				return (number / BIL).toFixed(1) + "Bil"
+			case number > TRIL:
+				return (number / TRIL).toFixed(1) + "Tril"
+			case number > QUAD:
+				return (number / QUAD).toFixed(1) + "Quad"
+			case number > QUINT:
+				return (number / QUINT).toFixed(1) + "Qnt"
+			case number > SEXT:
+				return (number / SEXT).toFixed(1) + "Sx"
+			case number > SEPT:
+				return (number / SEPT).toFixed(1) + "St"
+			case number > OCTI:
+				return (number / OCTI).toFixed(1) + "Oc"
+			case number > NONI:
+				return (number / NONI).toFixed(1) + "Nn"
+			case number > DECI:
+				return (number / DECI).toFixed(1) + "Dc"
+
+			default:
+				return number.toFixed(2)
+		}
+	}
+
 	function handleClickUpgrade(upgradeName) {
 		if (score > upgradeName.cost) {
+			setScore(score - upgradeName.cost)
+			setClickMultiplier(clickMultiplier * upgradeName.multiplier)
 			const updatedStore = clickStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
 					if (upgrade.level % 10 === 0 && index !== 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.2).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 2).toFixed(1),
+							cost: Number(upgrade.cost * 1.5).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 1.2).toFixed(1),
 							level: upgrade.level + 1,
 						}
 					} else {
@@ -139,8 +158,6 @@ export default function App() {
 				return upgrade
 			})
 			setClickStore(updatedStore)
-			setScore(score - upgradeName.cost)
-			setClickMultiplier(clickMultiplier * upgradeName.multiplier)
 		} else setMessage("Not enough Money")
 	}
 
@@ -149,6 +166,8 @@ export default function App() {
 			score: score,
 			idleMultiplier: idleMultiplier,
 			clickMultiplier: clickMultiplier,
+			idleStore: idleStore,
+			clickStore: clickStore,
 		}
 		localStorage.setItem("gameData", JSON.stringify(gameData))
 		setMessage("Game Saved")
@@ -159,6 +178,8 @@ export default function App() {
 		setScore(gameData.score)
 		setIdleMultiplier(gameData.idleMultiplier)
 		setClickMultiplier(gameData.clickMultiplier)
+		setIdleStore(gameData.idleStore)
+		setClickStore(gameData.clickStore)
 		setMessage("Game Loaded")
 	}
 
@@ -166,6 +187,11 @@ export default function App() {
 		localStorage.removeItem("gameData")
 		setMessage("Game Data Deleted")
 	}
+
+	useEffect(() => {
+		createIdleStore()
+		createClickStore()
+	}, [])
 
 	useEffect(() => {
 		// useEffect hook to set up an interval which increases score by idleMultiplier every 50ms
@@ -188,13 +214,13 @@ export default function App() {
 
 	return (
 		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-slate-500 p-2 font-poppins">
-			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 md:h-[800px] md:w-[580px]">
+			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 ">
 				{/* <----------------------------Top Row-------------------------------------> */}
 				<div className="flex h-24 w-full flex-col items-center gap-2 bg-gray-500 p-0">
 					<div className=" h-fit w-fit rounded-xl bg-gray-300 bg-opacity-50 p-2">
-						<h1>Score: {Number(score).toFixed(1)}</h1>
-						<h1>{Number(idleMultiplier * 20).toFixed(1)} Coins/s </h1>
-						<h1>{Number(clickMultiplier).toFixed(1)} Coins/click</h1>
+						<h1>Score: {FormatNumber(score)}</h1>
+						<h1>{Number(idleMultiplier * 20).toFixed(2)} Coins/s </h1>
+						<h1>{Number(clickMultiplier).toFixed(2)} Coins/click</h1>
 					</div>
 				</div>
 				{/* <----------------------------Center Row-------------------------------------> */}
@@ -203,7 +229,7 @@ export default function App() {
 						return (
 							<span
 								key={index}
-								className="absolute bottom-[30%] animate-slideup text-2xl text-black md:bottom-[45%]"
+								className="absolute bottom-[200px] animate-slideup text-2xl text-black md:bottom-[200px]"
 							>
 								{msg}
 							</span>
@@ -218,7 +244,7 @@ export default function App() {
 					</button>
 					{idleMenu && (
 						/* Displays a button for each object in ClickStore */
-						<div className="absolute bottom-12 flex h-1/2 w-full flex-col bg-gray-500 p-3 text-sm md:bottom-16 md:h-[360px] md:w-[580px]">
+						<div className="absolute bottom-12 flex w-full flex-col bg-gray-500 p-3 text-sm">
 							{idleStore.map((upgrade, index) => (
 								<div
 									key={index}
@@ -226,7 +252,7 @@ export default function App() {
 								>
 									<span className="mr-auto w-fit text-left">
 										Level: {upgrade.level + " / "}
-										Price: {upgrade.cost + " / "}
+										Price: {FormatNumber(upgrade.cost) + " / "}
 										<br />
 										Multiplier: {upgrade.multiplier}
 									</span>
@@ -245,7 +271,7 @@ export default function App() {
 
 					{clickMenu && (
 						/* Displays a button for each object in ClickStore */
-						<div className="absolute bottom-12 flex h-1/2 w-full flex-col bg-gray-500 p-3 text-sm md:bottom-16 md:h-[360px] md:w-[580px]">
+						<div className="absolute bottom-12 flex w-full flex-col bg-gray-500 p-3 text-sm">
 							{clickStore.map((upgrade, index) => (
 								<div
 									key={index}
@@ -253,7 +279,7 @@ export default function App() {
 								>
 									<span className="mr-auto w-fit text-left">
 										Level: {upgrade.level + " / "}
-										Price: {upgrade.cost + " / "}
+										Price: {FormatNumber(upgrade.cost) + " / "}
 										<br />
 										Multiplier: {upgrade.multiplier}
 									</span>
@@ -302,7 +328,7 @@ export default function App() {
 					)}
 				</div>
 				{/* <-----------------------Bottom Row - Menu Items --------------------->*/}
-				<div className="flex h-12 w-full flex-row items-start bg-gray-400 p-0">
+				<div className="flex h-12 w-full flex-row items-start justify-center bg-gray-400 p-0">
 					<button
 						onClick={() => {
 							idleMenu && setIdleMenu(false)
