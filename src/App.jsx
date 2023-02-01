@@ -17,6 +17,7 @@ export default function App() {
 	const [saveMenu, setSaveMenu] = useState(false)
 	const [idleStore, setIdleStore] = useState([])
 	const [clickStore, setClickStore] = useState([])
+	const [buttonVisible, setButtonVisible] = useState(true)
 
 	function createClickStore() {
 		let store = []
@@ -105,29 +106,29 @@ export default function App() {
 		const DECI = NONI * ONEK
 		switch (true) {
 			case number < ONEK - 1:
-				return number.toFixed(2)
+				return Number(number).toFixed(2)
 			case number < MIL - 1:
-				return (number / ONEK).toFixed(1) + "K"
+				return Number(number / ONEK).toFixed(1) + "K"
 			case number > MIL:
-				return (number / MIL).toFixed(1) + "Mil"
+				return Number(number / MIL).toFixed(1) + "Mil"
 			case number > BIL:
-				return (number / BIL).toFixed(1) + "Bil"
+				return Number(number / BIL).toFixed(1) + "Bil"
 			case number > TRIL:
-				return (number / TRIL).toFixed(1) + "Tril"
+				return Number(number / TRIL).toFixed(1) + "Tril"
 			case number > QUAD:
-				return (number / QUAD).toFixed(1) + "Quad"
+				return Number(number / QUAD).toFixed(1) + "Quad"
 			case number > QUINT:
-				return (number / QUINT).toFixed(1) + "Qnt"
+				return Number(number / QUINT).toFixed(1) + "Qnt"
 			case number > SEXT:
-				return (number / SEXT).toFixed(1) + "Sx"
+				return Number(number / SEXT).toFixed(1) + "Sx"
 			case number > SEPT:
-				return (number / SEPT).toFixed(1) + "St"
+				return Number(number / SEPT).toFixed(1) + "St"
 			case number > OCTI:
-				return (number / OCTI).toFixed(1) + "Oc"
+				return Number(number / OCTI).toFixed(1) + "Oc"
 			case number > NONI:
-				return (number / NONI).toFixed(1) + "Nn"
+				return Number(number / NONI).toFixed(1) + "Nn"
 			case number > DECI:
-				return (number / DECI).toFixed(1) + "Dc"
+				return Number(number / DECI).toFixed(1) + "Dc"
 
 			default:
 				return number.toFixed(2)
@@ -334,6 +335,7 @@ export default function App() {
 							idleMenu && setIdleMenu(false)
 							saveMenu && setSaveMenu(false)
 							setClickMenu(!clickMenu)
+							setButtonVisible(!buttonVisible)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
 					>
@@ -344,6 +346,7 @@ export default function App() {
 							clickMenu && setClickMenu(false)
 							saveMenu && setSaveMenu(false)
 							setIdleMenu(!idleMenu)
+							setButtonVisible(!buttonVisible)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
 					>
@@ -354,6 +357,7 @@ export default function App() {
 							idleMenu ? setIdleMenu(false) : null
 							clickMenu ? setClickMenu(false) : null
 							setSaveMenu(!saveMenu)
+							setButtonVisible(!buttonVisible)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
 					>
