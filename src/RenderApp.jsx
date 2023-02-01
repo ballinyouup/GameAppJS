@@ -1,8 +1,8 @@
 export default function RenderApp({
 	score,
-	idleMultiplier,
+	idleValue,
 	FormatNumber,
-	clickMultiplier,
+	clickValue,
 	clickMessages,
 	buttonVisible,
 	setButtonVisible,
@@ -50,8 +50,8 @@ export default function RenderApp({
 				<div className="flex h-fit w-full flex-col items-center gap-2 bg-gradient-to-b from-cyan-600 to-blue-800 p-2">
 					<div className=" bg-gray h-fit w-fit rounded-xl p-2 text-white">
 						<h1>Score: {FormatNumber(score)}</h1>
-						<h1>{FormatNumber(idleMultiplier * 20)} Coins/s </h1>
-						<h1>{FormatNumber(clickMultiplier)} Coins/click</h1>
+						<h1>{FormatNumber(idleValue * 20)} Coins/s </h1>
+						<h1>{FormatNumber(clickValue)} Coins/click</h1>
 					</div>
 				</div>
 				{/* <----------------------------Center Row-------------------------------------> */}
@@ -88,7 +88,7 @@ export default function RenderApp({
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
 										<br />
-										Multiplier: {upgrade.multiplier}
+										Value: {upgrade.value}
 									</span>
 									<button
 										className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"
@@ -116,7 +116,7 @@ export default function RenderApp({
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
 										<br />
-										Multiplier: {upgrade.multiplier}
+										Value: {upgrade.value}
 									</span>
 									<button
 										className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"

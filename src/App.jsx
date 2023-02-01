@@ -9,8 +9,8 @@ export default function App() {
 	const INITIAL_CLICK_COST = 20
 
 	const [score, setScore] = useState(0)
-	const [idleMultiplier, setIdleMultiplier] = useState(INITIAL_IDLE)
-	const [clickMultiplier, setClickMultiplier] = useState(INITIAL_CLICK)
+	const [idleValue, setIdleValue] = useState(INITIAL_IDLE)
+	const [clickValue, setClickValue] = useState(INITIAL_CLICK)
 	const [message, setMessage] = useState("")
 	const [clickMessages, setClickMessages] = useState([])
 	const clickMessagesLength = INITIAL_CLICKMSG_LENGTH
@@ -30,8 +30,8 @@ export default function App() {
 		) {
 			store.push({
 				name: `Click Upgrade ${i}`,
-				cost: INITIAL_CLICK_COST * Math.pow(10, i - 1),
-				multiplier: Number(1.15 + (i - 1) * 0.05).toFixed(2),
+				cost: INITIAL_CLICK_COST * Math.pow(8, i - 1),
+				value: Math.pow(5, i - 1),
 				level: 0,
 			})
 		}
@@ -51,8 +51,8 @@ export default function App() {
 		) {
 			store.push({
 				name: `Idle Upgrade ${i}`,
-				cost: INITIAL_IDLE_COST * Math.pow(10, i - 1),
-				multiplier: Number(1.1 + (i - 1) * 0.05).toFixed(2),
+				cost: INITIAL_IDLE_COST * Math.pow(8, i - 1),
+				value: Math.pow(5, i - 1),
 				level: 0,
 			})
 		}
@@ -63,17 +63,15 @@ export default function App() {
 		}
 	}
 
-	function increaseScore(multiplier) {
-		setScore(score + multiplier)
+	function increaseScore(value) {
+		setScore(score + value)
 	}
 
 	function handleClick() {
-		increaseScore(clickMultiplier)
+		increaseScore(clickValue)
 		setClickMessages([
 			...clickMessages,
-			<span key={clickMessages.length}>
-				{"+" + FormatNumber(clickMultiplier)}
-			</span>,
+			<span key={clickMessages.length}>{"+" + FormatNumber(clickValue)}</span>,
 		])
 	}
 
@@ -122,26 +120,27 @@ export default function App() {
 	function handleIdleUpgrade(upgradeName) {
 		if (score > upgradeName.cost) {
 			setScore(score - upgradeName.cost)
-			const updatedStore = idleStore.map((upgrade, index) => {
+			const updatedStore = idleStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level % 20 === 0) {
+					if (upgrade.level !== 0 && upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 2).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 1.1).toFixed(2),
+							cost: Number(upgrade.cost * 1.5).toFixed(2),
+							value: Number(upgrade.value * 2).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					} else {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.5).toFixed(1),
+							cost: Number(upgrade.cost * 1.5).toFixed(2),
+							value: Number(upgrade.value * 1.1).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					}
 				}
 				return upgrade
 			})
-			setIdleMultiplier(idleMultiplier * upgradeName.multiplier)
+			setIdleValue(idleValue * upgradeName.value)
 			setIdleStore(updatedStore)
 		} else {
 			setMessage("Not enough Money")
@@ -151,27 +150,27 @@ export default function App() {
 	function handleClickUpgrade(upgradeName) {
 		if (score > upgradeName.cost) {
 			setScore(score - upgradeName.cost)
-
-			const updatedStore = clickStore.map((upgrade, index) => {
+			const updatedStore = clickStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level % 20 === 0) {
+					if (upgrade.level !== 0 && upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 2).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 1.1).toFixed(2),
+							cost: Number(upgrade.cost * 1.5).toFixed(2),
+							value: Number(upgrade.value * 2).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					} else {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.5).toFixed(1),
+							cost: Number(upgrade.cost * 1.5).toFixed(2),
+							value: Number(upgrade.value * 1.1).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					}
 				}
 				return upgrade
 			})
-			setClickMultiplier(clickMultiplier * upgradeName.multiplier)
+			setClickValue(clickValue * upgradeName.value)
 			setClickStore(updatedStore)
 		} else setMessage("Not enough Money")
 	}
@@ -179,8 +178,8 @@ export default function App() {
 	const saveFile = () => {
 		const gameData = {
 			score: score,
-			idleMultiplier: idleMultiplier,
-			clickMultiplier: clickMultiplier,
+			idleValue: idleValue,
+			clickValue: clickValue,
 			idleStore: idleStore,
 			clickStore: clickStore,
 		}
@@ -191,8 +190,8 @@ export default function App() {
 	const loadFile = () => {
 		const gameData = JSON.parse(localStorage.getItem("gameData"))
 		setScore(gameData.score)
-		setIdleMultiplier(gameData.idleMultiplier)
-		setClickMultiplier(gameData.clickMultiplier)
+		setIdleValue(gameData.idleValue)
+		setClickValue(gameData.clickValue)
 		setIdleStore(gameData.idleStore)
 		setClickStore(gameData.clickStore)
 		setMessage("Game Loaded")
@@ -224,8 +223,8 @@ export default function App() {
 	}, [clickStore])
 
 	useEffect(() => {
-		// useEffect hook to set up an interval which increases score by idleMultiplier every 50ms
-		const timer = setInterval(() => increaseScore(idleMultiplier), 50)
+		// useEffect hook to set up an interval which increases score by idleValue every 50ms
+		const timer = setInterval(() => increaseScore(idleValue), 50)
 		// return value of useEffect is used to clear the interval when score changes
 		return () => clearInterval(timer)
 	}, [score])
@@ -246,9 +245,9 @@ export default function App() {
 		<>
 			<RenderApp
 				score={score}
-				idleMultiplier={idleMultiplier}
+				idleValue={idleValue}
 				FormatNumber={FormatNumber}
-				clickMultiplier={clickMultiplier}
+				clickValue={clickValue}
 				clickMessages={clickMessages}
 				buttonVisible={buttonVisible}
 				setButtonVisible={setButtonVisible}
