@@ -44,7 +44,7 @@ export default function RenderApp({
 		setButtonVisible(saveMenu)
 	}
 	return (
-		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-black p-2 font-poppins font-medium">
+		<div className="flex h-full w-full flex-row items-center justify-center gap-2 bg-black p-2 font-poppins font-medium">
 			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 ">
 				{/* <----------------------------Top Row-------------------------------------> */}
 				<div className="flex h-fit w-full flex-col items-center gap-2 bg-gradient-to-b from-cyan-600 to-blue-800 p-2">
