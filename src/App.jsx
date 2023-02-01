@@ -6,6 +6,7 @@ export default function App() {
 	const INITIAL_CLICKMSG_LENGTH = 1
 	const INITIAL_IDLE_COST = 20
 	const INITIAL_CLICK_COST = 20
+
 	const [score, setScore] = useState(0)
 	const [idleMultiplier, setIdleMultiplier] = useState(INITIAL_IDLE)
 	const [clickMultiplier, setClickMultiplier] = useState(INITIAL_CLICK)
@@ -235,21 +236,23 @@ export default function App() {
 						)
 					})}
 					{/* <----------------------------Click Button-------------------------------------> */}
-					<button
-						className="h-32 w-32 rounded-full bg-gray-400"
-						onClick={handleClick}
-					>
-						Click!
-					</button>
+					{buttonVisible && (
+						<button
+							className="h-32 w-32 rounded-full bg-gray-400"
+							onClick={handleClick}
+						>
+							Click!
+						</button>
+					)}
 					{idleMenu && (
-						/* Displays a button for each object in ClickStore */
+						/* Displays a button for each object in IdleStore */
 						<div className="flex h-full w-full flex-col p-3 text-sm">
 							{idleStore.map((upgrade, index) => (
 								<div
 									key={index}
 									className="flex flex-row bg-gray-300 px-5 py-3"
 								>
-									<span className="mr-auto w-fit text-left">
+									<span className="mr-auto text-left">
 										Level: {upgrade.level}
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
@@ -257,7 +260,7 @@ export default function App() {
 										Multiplier: {upgrade.multiplier}
 									</span>
 									<button
-										className="rounded-xl bg-gray-600 p-2 text-right text-white"
+										className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"
 										onClick={() => {
 											handleIdleUpgrade(upgrade)
 										}}
@@ -285,7 +288,7 @@ export default function App() {
 										Multiplier: {upgrade.multiplier}
 									</span>
 									<button
-										className="rounded-xl bg-gray-600 p-2 text-right text-white"
+										className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"
 										onClick={() => {
 											handleClickUpgrade(upgrade)
 										}}
@@ -335,7 +338,7 @@ export default function App() {
 							idleMenu && setIdleMenu(false)
 							saveMenu && setSaveMenu(false)
 							setClickMenu(!clickMenu)
-							setButtonVisible(!buttonVisible)
+							setButtonVisible(clickMenu)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
 					>
@@ -346,7 +349,7 @@ export default function App() {
 							clickMenu && setClickMenu(false)
 							saveMenu && setSaveMenu(false)
 							setIdleMenu(!idleMenu)
-							setButtonVisible(!buttonVisible)
+							setButtonVisible(idleMenu)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
 					>
@@ -357,7 +360,7 @@ export default function App() {
 							idleMenu ? setIdleMenu(false) : null
 							clickMenu ? setClickMenu(false) : null
 							setSaveMenu(!saveMenu)
-							setButtonVisible(!buttonVisible)
+							setButtonVisible(saveMenu)
 						}}
 						className="box-border h-12 w-40 border border-gray-500"
 					>
