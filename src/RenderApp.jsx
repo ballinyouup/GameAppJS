@@ -44,18 +44,20 @@ export default function RenderApp({
 		setButtonVisible(saveMenu)
 	}
 	return (
-		<div className="flex h-full w-full flex-row items-center justify-center gap-2 bg-black p-2 font-poppins font-medium">
-			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 ">
+		<div className="fixed flex h-full w-full flex-row justify-center gap-2 bg-black p-2 font-poppins font-medium">
+			<div className="flex w-full flex-col content-between bg-white p-0 ">
 				{/* <----------------------------Top Row-------------------------------------> */}
-				<div className="flex h-fit w-full flex-col items-center gap-2 bg-gradient-to-b from-cyan-600 to-blue-800 p-2">
+				<div className="flex w-full flex-col items-center gap-2 bg-gradient-to-b from-cyan-600 to-blue-800 p-2">
 					<div className=" bg-gray h-fit w-fit rounded-xl p-2 text-white">
 						<h1>Score: {FormatNumber(score)}</h1>
 						<h1>{FormatNumber(idleValue * 20)} Coins/s </h1>
 						<h1>{FormatNumber(clickValue)} Coins/click</h1>
 					</div>
 				</div>
+
 				{/* <----------------------------Center Row-------------------------------------> */}
 				<div className="flex h-full w-full flex-col items-center justify-end overflow-scroll bg-white">
+					
 					{clickMessages.map((msg, index) => {
 						return (
 							<span
