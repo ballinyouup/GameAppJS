@@ -325,7 +325,7 @@ export default function App() {
 						</div>
 					)}
 					{message !== "" && (
-						<div className="flex -translate-x-2/4 -translate-y-1/2 flex-col items-center justify-end bg-slate-700 p-3 text-xl text-white">
+						<div className="flex flex-col items-center justify-center bg-slate-700 p-3 text-xl text-white">
 							{message}
 							<button onClick={() => setMessage("")}> X </button>
 						</div>
