@@ -124,7 +124,7 @@ export default function App() {
 			setScore(score - upgradeName.cost)
 			const updatedStore = idleStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
-					if (index !== 0 && upgrade.level % 20 === 0) {
+					if (upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 2).toFixed(1),
@@ -154,7 +154,7 @@ export default function App() {
 
 			const updatedStore = clickStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
-					if (index !== 0 && upgrade.level % 20 === 0) {
+					if (upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 2).toFixed(1),
