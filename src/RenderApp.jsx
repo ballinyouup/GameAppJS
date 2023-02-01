@@ -166,17 +166,25 @@ export default function RenderApp({
 					)}
 				</div>
 				{/* <-----------------------Bottom Row - Menu Items --------------------->*/}
-				<div className="flex h-12 w-full flex-row items-start justify-center bg-gradient-to-b from-cyan-600 to-blue-800 p-0 text-white">
-					<button onClick={handleClickMenu} className="box-border h-12 w-40">
+				<div className="flex h-12 w-full flex-row items-center justify-center bg-gradient-to-b from-cyan-600 to-blue-800 p-0 text-white">
+					<button
+						onClick={handleClickMenu}
+						className="box-border h-12 w-full sm:w-40"
+					>
 						Click Menu
 					</button>
-					<button onClick={handleIdleMenu} className="box-border h-12 w-40">
+					<button
+						onClick={handleIdleMenu}
+						className="box-border h-12 w-full sm:w-40"
+					>
 						Idle Menu
 					</button>
-					<button onClick={handleSaveMenu} className="box-border h-12 w-40">
+					<button
+						onClick={handleSaveMenu}
+						className="box-border h-12 w-full sm:w-40"
+					>
 						Save Menu
 					</button>
-					<button className="box-border h-12 w-40">Settings</button>
 				</div>
 			</div>
 		</div>
