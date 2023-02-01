@@ -4,7 +4,7 @@ import RenderApp from "./RenderApp"
 export default function App() {
 	const INITIAL_IDLE = 0.05
 	const INITIAL_CLICK = 1
-	const INITIAL_CLICKMSG_LENGTH = 3
+	const INITIAL_CLICKMSG_LENGTH = 10
 	const INITIAL_IDLE_COST = 20
 	const INITIAL_CLICK_COST = 20
 
@@ -77,7 +77,7 @@ export default function App() {
 
 	function FormatNumber(number) {
 		const ONEK = 1000
-		const MIL = ONEK * 100
+		const MIL = ONEK * ONEK
 		const BIL = MIL * ONEK
 		const TRIL = BIL * ONEK
 		const QUAD = TRIL * ONEK
@@ -88,7 +88,7 @@ export default function App() {
 		const NONI = OCTI * ONEK
 		const DECI = NONI * ONEK
 		switch (true) {
-			case number < ONEK - 1:
+			case number < ONEK:
 				return Number(number).toFixed(2)
 			case number < MIL:
 				return Number(number / ONEK).toFixed(1) + "K"
