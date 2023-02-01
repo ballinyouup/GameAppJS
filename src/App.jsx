@@ -22,7 +22,7 @@ export default function App() {
 	const [buttonVisible, setButtonVisible] = useState(true)
 
 	function createClickStore(num) {
-		let store = []
+		const store = []
 		for (
 			let i = clickStore.length === 0 ? 1 : clickStore.length - 1;
 			i <= clickStore.length + num;
@@ -30,8 +30,8 @@ export default function App() {
 		) {
 			store.push({
 				name: `Click Upgrade ${i}`,
-				cost: INITIAL_CLICK_COST * Math.pow(5, i - 1),
-				multiplier: Number(1.1 + (i - 1) * 0.05).toFixed(2),
+				cost: INITIAL_CLICK_COST * Math.pow(10, i - 1),
+				multiplier: Number(1.15 + (i - 1) * 0.05).toFixed(2),
 				level: 0,
 			})
 		}
@@ -43,7 +43,7 @@ export default function App() {
 	}
 
 	function createIdleStore(num) {
-		let store = []
+		const store = []
 		for (
 			let i = idleStore.length === 0 ? 1 : idleStore.length - 1;
 			i <= idleStore.length + num;
@@ -51,8 +51,8 @@ export default function App() {
 		) {
 			store.push({
 				name: `Idle Upgrade ${i}`,
-				cost: INITIAL_IDLE_COST * Math.pow(5, i - 1),
-				multiplier: Number(1.05 + (i - 1) * 0.05).toFixed(2),
+				cost: INITIAL_IDLE_COST * Math.pow(10, i - 1),
+				multiplier: Number(1.1 + (i - 1) * 0.05).toFixed(2),
 				level: 0,
 			})
 		}
@@ -128,14 +128,14 @@ export default function App() {
 					if (index !== 0 && upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.15).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 1.05).toFixed(1),
+							cost: Number(upgrade.cost * 2).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 1.1).toFixed(1),
 							level: upgrade.level + 1,
 						}
 					} else {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.15).toFixed(1),
+							cost: Number(upgrade.cost * 1.5).toFixed(1),
 							level: upgrade.level + 1,
 						}
 					}
@@ -157,14 +157,14 @@ export default function App() {
 					if (index !== 0 && upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.15).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 1.05).toFixed(1),
+							cost: Number(upgrade.cost * 2).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 1.1).toFixed(1),
 							level: upgrade.level + 1,
 						}
 					} else {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.15).toFixed(1),
+							cost: Number(upgrade.cost * 1.5).toFixed(1),
 							level: upgrade.level + 1,
 						}
 					}
@@ -203,13 +203,13 @@ export default function App() {
 	}
 
 	useEffect(() => {
-		createIdleStore(10)
-		createClickStore(10)
+		createIdleStore(5)
+		createClickStore(5)
 	}, [])
 
 	useEffect(() => {
 		if (idleStore.length > 0 && idleStore[idleStore.length - 1].level === 1) {
-			createIdleStore(10)
+			createIdleStore(5)
 		}
 	}, [idleStore])
 
@@ -218,7 +218,7 @@ export default function App() {
 			clickStore.length > 0 &&
 			clickStore[clickStore.length - 1].level === 1
 		) {
-			createClickStore(10)
+			createClickStore(5)
 		}
 	}, [clickStore])
 

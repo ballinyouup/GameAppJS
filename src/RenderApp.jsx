@@ -44,18 +44,18 @@ export default function RenderApp({
 		setButtonVisible(saveMenu)
 	}
 	return (
-		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-slate-500 p-2 font-poppins font-medium">
+		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-black p-2 font-poppins font-medium">
 			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 ">
 				{/* <----------------------------Top Row-------------------------------------> */}
-				<div className="flex h-24 w-full flex-col items-center gap-2 bg-gray-500 p-0">
-					<div className=" h-fit w-fit rounded-xl bg-gray-300 bg-opacity-50 p-2">
+				<div className="flex h-fit w-full flex-col items-center gap-2 bg-gradient-to-b from-cyan-600 to-blue-800 p-2">
+					<div className=" bg-gray h-fit w-fit rounded-xl p-2 text-white">
 						<h1>Score: {FormatNumber(score)}</h1>
 						<h1>{FormatNumber(idleMultiplier * 20)} Coins/s </h1>
 						<h1>{FormatNumber(clickMultiplier)} Coins/click</h1>
 					</div>
 				</div>
 				{/* <----------------------------Center Row-------------------------------------> */}
-				<div className="flex h-full w-full flex-col items-center justify-end overflow-scroll bg-white p-2">
+				<div className="flex h-full w-full flex-col items-center justify-end overflow-scroll bg-white">
 					{clickMessages.map((msg, index) => {
 						return (
 							<span
@@ -69,10 +69,10 @@ export default function RenderApp({
 					{/* <----------------------------Click Button-------------------------------------> */}
 					{buttonVisible && (
 						<button
-							className="h-32 w-32 rounded-full bg-gray-400"
+							className="h-32 w-full bg-gradient-to-b from-cyan-600 to-blue-800 active:shadow-inner active:shadow-black"
 							onClick={handleClick}
 						>
-							Click!
+							<img className="m-auto h-12 w-12" src="click.png" />
 						</button>
 					)}
 					{idleMenu && (
@@ -156,37 +156,27 @@ export default function RenderApp({
 						</div>
 					)}
 					{message !== "" && (
-						<div className="absolute top-1/2 z-30 flex h-40 -translate-y-1/2 flex-col items-center justify-center bg-slate-700 p-3 text-xl text-white">
+						<button
+							className="absolute top-1/2 z-30 flex h-40 -translate-y-1/2 flex-col items-center justify-center rounded-2xl bg-blue-800 p-3 text-xl text-white"
+							onClick={() => setMessage("")}
+						>
 							{message}
-							<button className="text-3xl" onClick={() => setMessage("")}>
-								X
-							</button>
-						</div>
+							<img className="mt-4 w-10" src="close.png" />
+						</button>
 					)}
 				</div>
 				{/* <-----------------------Bottom Row - Menu Items --------------------->*/}
-				<div className="flex h-12 w-full flex-row items-start justify-center bg-gray-400 p-0">
-					<button
-						onClick={handleClickMenu}
-						className="box-border h-12 w-40 border border-gray-500"
-					>
+				<div className="flex h-12 w-full flex-row items-start justify-center bg-gradient-to-b from-cyan-600 to-blue-800 p-0 text-white">
+					<button onClick={handleClickMenu} className="box-border h-12 w-40">
 						Click Menu
 					</button>
-					<button
-						onClick={handleIdleMenu}
-						className="box-border h-12 w-40 border border-gray-500"
-					>
+					<button onClick={handleIdleMenu} className="box-border h-12 w-40">
 						Idle Menu
 					</button>
-					<button
-						onClick={handleSaveMenu}
-						className="box-border h-12 w-40 border border-gray-500"
-					>
+					<button onClick={handleSaveMenu} className="box-border h-12 w-40">
 						Save Menu
 					</button>
-					<button className="box-border h-12 w-40 border border-gray-500">
-						Settings
-					</button>
+					<button className="box-border h-12 w-40">Settings</button>
 				</div>
 			</div>
 		</div>
