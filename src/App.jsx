@@ -21,11 +21,10 @@ export default function App() {
 
 	function createClickStore() {
 		let store = []
-
 		for (let i = 1; i <= 11; i++) {
 			store.push({
 				name: `Click Upgrade ${i}`,
-				cost: INITIAL_CLICK_COST * Math.pow(4, i - 1),
+				cost: INITIAL_CLICK_COST * Math.pow(10, i - 1),
 				multiplier: Number(1.1 + (i - 1) * 0.05).toFixed(2),
 				level: 0,
 			})
@@ -40,7 +39,7 @@ export default function App() {
 		for (let i = 1; i <= 11; i++) {
 			store.push({
 				name: `Idle Upgrade ${i}`,
-				cost: INITIAL_IDLE_COST * Math.pow(4, i - 1),
+				cost: INITIAL_IDLE_COST * Math.pow(10, i - 1),
 				multiplier: Number(1.05 + (i - 1) * 0.05).toFixed(2),
 				level: 0,
 			})
@@ -63,38 +62,9 @@ export default function App() {
 		])
 	}
 
-	function handleIdleUpgrade(upgradeName) {
-		if (score > upgradeName.cost) {
-			setScore(score - upgradeName.cost)
-			setIdleMultiplier(idleMultiplier * upgradeName.multiplier)
-			const updatedStore = idleStore.map((upgrade, index) => {
-				if (upgrade === upgradeName) {
-					if (index !== 0 && upgrade.level % 10 === 0) {
-						return {
-							...upgrade,
-							cost: Number(upgrade.cost * 1.5).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 1.2).toFixed(1),
-							level: upgrade.level + 1,
-						}
-					} else {
-						return {
-							...upgrade,
-							cost: Number(upgrade.cost * 1.2).toFixed(1),
-							level: upgrade.level + 1,
-						}
-					}
-				}
-				return upgrade
-			})
-			setIdleStore(updatedStore)
-		} else {
-			setMessage("Not enough Money")
-		}
-	}
-
 	function FormatNumber(number) {
 		const ONEK = 1000
-		const MIL = 1_000_000
+		const MIL = ONEK * 100
 		const BIL = MIL * ONEK
 		const TRIL = BIL * ONEK
 		const QUAD = TRIL * ONEK
@@ -107,31 +77,59 @@ export default function App() {
 		switch (true) {
 			case number < ONEK - 1:
 				return Number(number).toFixed(2)
-			case number < MIL - 1:
-				return Number(number / ONEK).toFixed(1) + "K"
-			case number > MIL:
-				return Number(number / MIL).toFixed(1) + "Mil"
-			case number > BIL:
-				return Number(number / BIL).toFixed(1) + "Bil"
-			case number > TRIL:
-				return Number(number / TRIL).toFixed(1) + "Tril"
-			case number > QUAD:
-				return Number(number / QUAD).toFixed(1) + "Quad"
-			case number > QUINT:
-				return Number(number / QUINT).toFixed(1) + "Qnt"
-			case number > SEXT:
-				return Number(number / SEXT).toFixed(1) + "Sx"
-			case number > SEPT:
-				return Number(number / SEPT).toFixed(1) + "St"
-			case number > OCTI:
-				return Number(number / OCTI).toFixed(1) + "Oc"
-			case number > NONI:
-				return Number(number / NONI).toFixed(1) + "Nn"
+			case number < MIL:
+				return Number(number / MIL).toFixed(1) + "K"
+			case number < BIL:
+				return Number(number / BIL).toFixed(1) + "M"
+			case number < TRIL:
+				return Number(number / TRIL).toFixed(1) + "B"
+			case number < QUAD:
+				return Number(number / QUAD).toFixed(1) + "T"
+			case number < QUINT:
+				return Number(number / QUINT).toFixed(1) + "q"
+			case number < SEXT:
+				return Number(number / SEXT).toFixed(1) + "Q"
+			case number < SEPT:
+				return Number(number / SEPT).toFixed(1) + "sx"
+			case number < OCTI:
+				return Number(number / OCTI).toFixed(1) + "Sp"
+			case number < NONI:
+				return Number(number / NONI).toFixed(1) + "Oc"
+			case number < DECI:
+				return Number(number / DECI).toFixed(1) + "Non"
 			case number > DECI:
-				return Number(number / DECI).toFixed(1) + "Dc"
-
+				return Number(number / DECI).toFixed(1) + "inf"
 			default:
 				return number.toFixed(2)
+		}
+	}
+
+	function handleIdleUpgrade(upgradeName) {
+		if (score > upgradeName.cost) {
+			setScore(score - upgradeName.cost)
+			setIdleMultiplier(idleMultiplier * upgradeName.multiplier)
+			const updatedStore = idleStore.map((upgrade, index) => {
+				if (upgrade === upgradeName) {
+					if (index !== 0 && upgrade.level % 20 === 0) {
+						return {
+							...upgrade,
+							cost: Number(upgrade.cost * 2).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 1.5).toFixed(1),
+							level: upgrade.level + 1,
+						}
+					} else {
+						return {
+							...upgrade,
+							cost: Number(upgrade.cost * 2).toFixed(1),
+							level: upgrade.level + 1,
+						}
+					}
+				}
+				return upgrade
+			})
+			setIdleStore(updatedStore)
+		} else {
+			setMessage("Not enough Money")
 		}
 	}
 
@@ -141,17 +139,17 @@ export default function App() {
 			setClickMultiplier(clickMultiplier * upgradeName.multiplier)
 			const updatedStore = clickStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level % 10 === 0 && index !== 0) {
+					if (index !== 0 && upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.5).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 1.2).toFixed(1),
+							cost: Number(upgrade.cost * 2).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 1.5).toFixed(1),
 							level: upgrade.level + 1,
 						}
 					} else {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.2).toFixed(1),
+							cost: Number(upgrade.cost * 2).toFixed(1),
 							level: upgrade.level + 1,
 						}
 					}
@@ -252,8 +250,9 @@ export default function App() {
 									className="flex flex-row bg-gray-300 px-5 py-3"
 								>
 									<span className="mr-auto w-fit text-left">
-										Level: {upgrade.level + " / "}
-										Price: {FormatNumber(upgrade.cost) + " / "}
+										Level: {upgrade.level}
+										<br />
+										Price: {FormatNumber(upgrade.cost)}
 										<br />
 										Multiplier: {upgrade.multiplier}
 									</span>
@@ -279,8 +278,9 @@ export default function App() {
 									className="flex flex-row bg-gray-300 px-5 py-3"
 								>
 									<span className="mr-auto w-fit text-left">
-										Level: {upgrade.level + " / "}
-										Price: {FormatNumber(upgrade.cost) + " / "}
+										Level: {upgrade.level}
+										<br />
+										Price: {FormatNumber(upgrade.cost)}
 										<br />
 										Multiplier: {upgrade.multiplier}
 									</span>
