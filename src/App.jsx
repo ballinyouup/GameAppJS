@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 export default function App() {
 	const INITIAL_IDLE = 0.05
 	const INITIAL_CLICK = 1
-	const INITIAL_CLICKMSG_LENGTH = 1
+	const INITIAL_CLICKMSG_LENGTH = 3
 	const INITIAL_IDLE_COST = 20
 	const INITIAL_CLICK_COST = 20
 
@@ -20,33 +20,46 @@ export default function App() {
 	const [clickStore, setClickStore] = useState([])
 	const [buttonVisible, setButtonVisible] = useState(true)
 
-	function createClickStore() {
+	function createClickStore(num) {
 		let store = []
-		for (let i = 1; i <= 11; i++) {
+		for (
+			let i = clickStore.length === 0 ? 1 : clickStore.length - 1;
+			i <= clickStore.length + num;
+			i++
+		) {
 			store.push({
 				name: `Click Upgrade ${i}`,
-				cost: INITIAL_CLICK_COST * Math.pow(4, i - 1),
-				multiplier: Number(1.1 + (i - 1) * 0.03).toFixed(2),
+				cost: INITIAL_CLICK_COST * Math.pow(5, i - 1),
+				multiplier: Number(1.1 + (i - 1) * 0.05).toFixed(2),
 				level: 0,
 			})
 		}
-
-		setClickStore(store)
+		if (store.length > 0) {
+			setClickStore([...clickStore, ...store])
+		} else {
+			setClickStore(clickStore)
+		}
 	}
 
-	function createIdleStore() {
+	function createIdleStore(num) {
 		let store = []
-
-		for (let i = 1; i <= 11; i++) {
+		for (
+			let i = idleStore.length === 0 ? 1 : idleStore.length - 1;
+			i <= idleStore.length + num;
+			i++
+		) {
 			store.push({
 				name: `Idle Upgrade ${i}`,
-				cost: INITIAL_IDLE_COST * Math.pow(4, i - 1),
-				multiplier: Number(1.05 + (i - 1) * 0.03).toFixed(2),
+				cost: INITIAL_IDLE_COST * Math.pow(5, i - 1),
+				multiplier: Number(1.05 + (i - 1) * 0.05).toFixed(2),
 				level: 0,
 			})
 		}
-
-		setIdleStore(store)
+		if (store.length > 0) {
+			setIdleStore([...idleStore, ...store])
+		} else {
+			setIdleStore(idleStore)
+		}
 	}
 
 	function increaseScore(multiplier) {
@@ -58,7 +71,7 @@ export default function App() {
 		setClickMessages([
 			...clickMessages,
 			<span key={clickMessages.length}>
-				{"+" + Number(clickMultiplier).toFixed(2)}
+				{"+" + FormatNumber(clickMultiplier)}
 			</span>,
 		])
 	}
@@ -101,7 +114,7 @@ export default function App() {
 			case number > DECI:
 				return Number(number / DECI).toFixed(1) + "D"
 			default:
-				return number.toFixed(2)
+				return Number(number).toFixed(2)
 		}
 	}
 
@@ -189,9 +202,24 @@ export default function App() {
 	}
 
 	useEffect(() => {
-		createIdleStore()
-		createClickStore()
+		createIdleStore(10)
+		createClickStore(10)
 	}, [])
+
+	useEffect(() => {
+		if (idleStore.length > 0 && idleStore[idleStore.length - 1].level === 1) {
+			createIdleStore(10)
+		}
+	}, [idleStore])
+
+	useEffect(() => {
+		if (
+			clickStore.length > 0 &&
+			clickStore[clickStore.length - 1].level === 1
+		) {
+			createClickStore(10)
+		}
+	}, [clickStore])
 
 	useEffect(() => {
 		// useEffect hook to set up an interval which increases score by idleMultiplier every 50ms
@@ -213,14 +241,14 @@ export default function App() {
 	}, [clickMessages])
 
 	return (
-		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-slate-500 p-2 font-poppins">
+		<div className="flex h-screen w-screen flex-row items-center justify-center gap-2 bg-slate-500 p-2 font-poppins font-semibold">
 			<div className="flex h-full w-full flex-col place-content-between items-start bg-white p-0 ">
 				{/* <----------------------------Top Row-------------------------------------> */}
 				<div className="flex h-24 w-full flex-col items-center gap-2 bg-gray-500 p-0">
 					<div className=" h-fit w-fit rounded-xl bg-gray-300 bg-opacity-50 p-2">
 						<h1>Score: {FormatNumber(score)}</h1>
-						<h1>{Number(idleMultiplier * 20).toFixed(2)} Coins/s </h1>
-						<h1>{Number(clickMultiplier).toFixed(2)} Coins/click</h1>
+						<h1>{FormatNumber(idleMultiplier * 20)} Coins/s </h1>
+						<h1>{FormatNumber(clickMultiplier)} Coins/click</h1>
 					</div>
 				</div>
 				{/* <----------------------------Center Row-------------------------------------> */}
@@ -325,9 +353,11 @@ export default function App() {
 						</div>
 					)}
 					{message !== "" && (
-						<div className="flex flex-col items-center justify-center bg-slate-700 p-3 text-xl text-white">
+						<div className="absolute top-1/2 flex h-40 -translate-y-1/2 flex-col items-center justify-center bg-slate-700 p-3 text-xl text-white">
 							{message}
-							<button onClick={() => setMessage("")}> X </button>
+							<button className="text-3xl" onClick={() => setMessage("")}>
+								X
+							</button>
 						</div>
 					)}
 				</div>
