@@ -224,7 +224,7 @@ export default function App() {
 					</div>
 				</div>
 				{/* <----------------------------Center Row-------------------------------------> */}
-				<div className="z-0 flex h-full w-full flex-col items-center justify-end bg-white p-2">
+				<div className="z-0 flex h-full w-full flex-col items-center justify-end overflow-scroll bg-white p-2">
 					{clickMessages.map((msg, index) => {
 						return (
 							<span
@@ -244,7 +244,7 @@ export default function App() {
 					</button>
 					{idleMenu && (
 						/* Displays a button for each object in ClickStore */
-						<div className="absolute bottom-12 flex w-full flex-col bg-gray-500 p-3 text-sm">
+						<div className="flex h-full w-full flex-col p-3 text-sm">
 							{idleStore.map((upgrade, index) => (
 								<div
 									key={index}
@@ -271,7 +271,7 @@ export default function App() {
 
 					{clickMenu && (
 						/* Displays a button for each object in ClickStore */
-						<div className="absolute bottom-12 flex w-full flex-col bg-gray-500 p-3 text-sm">
+						<div className="flex h-full w-full flex-col p-3 text-sm">
 							{clickStore.map((upgrade, index) => (
 								<div
 									key={index}
@@ -321,7 +321,7 @@ export default function App() {
 						</div>
 					)}
 					{message !== "" && (
-						<div className="absolute top-1/2 left-1/2 flex -translate-x-2/4 -translate-y-1/2 flex-col items-center justify-end bg-slate-700 p-3 text-xl text-white">
+						<div className="flex -translate-x-2/4 -translate-y-1/2 flex-col items-center justify-end bg-slate-700 p-3 text-xl text-white">
 							{message}
 							<button onClick={() => setMessage("")}> X </button>
 						</div>
