@@ -122,14 +122,13 @@ export default function App() {
 	function handleIdleUpgrade(upgradeName) {
 		if (score > upgradeName.cost) {
 			setScore(score - upgradeName.cost)
-			setIdleMultiplier(idleMultiplier * upgradeName.multiplier)
 			const updatedStore = idleStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
 					if (index !== 0 && upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 2).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 1.1).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 1.1).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					} else {
@@ -142,6 +141,7 @@ export default function App() {
 				}
 				return upgrade
 			})
+			setIdleMultiplier(idleMultiplier * upgradeName.multiplier)
 			setIdleStore(updatedStore)
 		} else {
 			setMessage("Not enough Money")
@@ -151,14 +151,14 @@ export default function App() {
 	function handleClickUpgrade(upgradeName) {
 		if (score > upgradeName.cost) {
 			setScore(score - upgradeName.cost)
-			setClickMultiplier(clickMultiplier * upgradeName.multiplier)
+
 			const updatedStore = clickStore.map((upgrade, index) => {
 				if (upgrade === upgradeName) {
 					if (index !== 0 && upgrade.level % 20 === 0) {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 2).toFixed(1),
-							multiplier: Number(upgrade.multiplier * 1.1).toFixed(1),
+							multiplier: Number(upgrade.multiplier * 1.1).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					} else {
@@ -171,6 +171,7 @@ export default function App() {
 				}
 				return upgrade
 			})
+			setClickMultiplier(clickMultiplier * upgradeName.multiplier)
 			setClickStore(updatedStore)
 		} else setMessage("Not enough Money")
 	}
