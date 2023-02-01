@@ -30,7 +30,7 @@ export default function App() {
 		) {
 			store.push({
 				name: `Click Upgrade ${i}`,
-				cost: INITIAL_CLICK_COST * Math.pow(8, i - 1),
+				cost: INITIAL_CLICK_COST * Math.pow(10, i - 1),
 				value: Math.pow(5, i - 1),
 				level: 0,
 			})
@@ -51,8 +51,8 @@ export default function App() {
 		) {
 			store.push({
 				name: `Idle Upgrade ${i}`,
-				cost: INITIAL_IDLE_COST * Math.pow(8, i - 1),
-				value: Math.pow(5, i - 1),
+				cost: INITIAL_IDLE_COST * Math.pow(10, i - 1),
+				value: Math.pow(5, i - 1) / 20,
 				level: 0,
 			})
 		}
@@ -118,7 +118,7 @@ export default function App() {
 	}
 
 	function handleIdleUpgrade(upgradeName) {
-		if (score > upgradeName.cost) {
+		if (score >= upgradeName.cost) {
 			setScore(score - upgradeName.cost)
 			const updatedStore = idleStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
@@ -133,14 +133,13 @@ export default function App() {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 1.5).toFixed(2),
-							value: Number(upgrade.value * 1.1).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					}
 				}
 				return upgrade
 			})
-			setIdleValue(idleValue * upgradeName.value)
+			setIdleValue(idleValue + upgradeName.value)
 			setIdleStore(updatedStore)
 		} else {
 			setMessage("Not enough Money")
@@ -148,11 +147,11 @@ export default function App() {
 	}
 
 	function handleClickUpgrade(upgradeName) {
-		if (score > upgradeName.cost) {
+		if (score >= upgradeName.cost) {
 			setScore(score - upgradeName.cost)
 			const updatedStore = clickStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level !== 0 && upgrade.level % 20 === 0) {
+					if (upgrade.level % 20 === 0 && upgrade.level != 0) {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 1.5).toFixed(2),
@@ -163,14 +162,13 @@ export default function App() {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 1.5).toFixed(2),
-							value: Number(upgrade.value * 1.1).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					}
 				}
 				return upgrade
 			})
-			setClickValue(clickValue * upgradeName.value)
+			setClickValue(clickValue + upgradeName.value)
 			setClickStore(updatedStore)
 		} else setMessage("Not enough Money")
 	}

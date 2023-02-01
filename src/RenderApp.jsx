@@ -90,7 +90,7 @@ export default function RenderApp({
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
 										<br />
-										Value: {upgrade.value}
+										Value: {upgrade.value * 20}
 									</span>
 									<button
 										className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"
