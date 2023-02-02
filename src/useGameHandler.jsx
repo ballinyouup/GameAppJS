@@ -83,49 +83,88 @@ export const useGameHandler = () => {
 		])
 	}
 
-	function FormatNumber(number) {
-		const ONEK = 1000
-		const MIL = ONEK * ONEK
-		const BIL = MIL * ONEK
-		const TRIL = BIL * ONEK
-		const QUAD = TRIL * ONEK
-		const QUINT = QUAD * ONEK
-		const SEXT = QUINT * ONEK
-		const SEPT = SEXT * ONEK
-		const OCTI = SEPT * ONEK
-		const NONI = OCTI * ONEK
-		const DECI = NONI * ONEK
-		switch (true) {
-			case number < ONEK:
-				return Number(number).toFixed(2)
-			case number < MIL:
-				return Number(number / ONEK).toFixed(1) + "K"
-			case number < BIL:
-				return Number(number / MIL).toFixed(1) + "M"
-			case number < TRIL:
-				return Number(number / BIL).toFixed(1) + "B"
-			case number < QUAD:
-				return Number(number / TRIL).toFixed(1) + "T"
-			case number < QUINT:
-				return Number(number / QUAD).toFixed(1) + "q"
-			case number < SEXT:
-				return Number(number / QUINT).toFixed(1) + "Q"
-			case number < SEPT:
-				return Number(number / SEXT).toFixed(1) + "sx"
-			case number < OCTI:
-				return Number(number / SEPT).toFixed(1) + "Sp"
-			case number < NONI:
-				return Number(number / OCTI).toFixed(1) + "Oc"
-			case number < DECI:
-				return Number(number / NONI).toFixed(1) + "Non"
-			case number > DECI:
-				return Number(number / DECI).toFixed(1) + "D"
-			default:
-				return Number(number).toFixed(2)
+	function FormatNumber(
+		number,
+		letters = [
+			"K",
+			"M",
+			"B",
+			"T",
+			"q",
+			"Q",
+			"s",
+			"S",
+			"N",
+			"D",
+			"aa",
+			"AA",
+			"bb",
+			"BB",
+			"cc",
+			"CC",
+			"dd",
+			"DD",
+			"ee",
+			"EE",
+			"ff",
+			"FF",
+			"gg",
+			"GG",
+			"hh",
+			"HH",
+			"ii",
+			"II",
+			"jj",
+			"JJ",
+			"kk",
+			"KK",
+			"ll",
+			"LL",
+			"mm",
+			"MM",
+			"nn",
+			"NN",
+			"oo",
+			"OO",
+			"pp",
+			"PP",
+			"qq",
+			"QQ",
+			"rr",
+			"RR",
+			"ss",
+			"SS",
+			"tt",
+			"TT",
+			"uu",
+			"UU",
+			"vv",
+			"VV",
+			"ww",
+			"WW",
+			"xx",
+			"XX",
+			"yy",
+			"YY",
+			"zz",
+			"ZZ",
+		]
+	) {
+		let result = number
+		let letter = ""
+		for (let i = 0; i < letters.length; i++) {
+			if (number >= Math.pow(10, (i + 1) * 3)) {
+				result = number / Math.pow(10, (i + 1) * 3)
+				letter = letters[i]
+			} else {
+				break
+			}
 		}
+		return Number(result).toFixed(1) + letter
 	}
 
 	function handleIdleUpgrade(upgradeName) {
+		setClickMessages([])
 		if (score >= upgradeName.cost) {
 			setScore(score - upgradeName.cost)
 			const updatedStore = idleStore.map((upgrade) => {
@@ -152,6 +191,7 @@ export const useGameHandler = () => {
 	}
 
 	function handleClickUpgrade(upgradeName) {
+		setClickMessages([])
 		if (score >= upgradeName.cost) {
 			setScore(score - upgradeName.cost)
 			const updatedStore = clickStore.map((upgrade) => {
@@ -229,11 +269,13 @@ export const useGameHandler = () => {
 	}, [score])
 
 	useEffect(() => {
-		const timer = setInterval(() => {
-			setClickMessages(clickMessages.slice(1))
+		const timer = setTimeout(() => {
+			clickMessages.length < 11
+				? setClickMessages(clickMessages.slice(1))
+				: setClickMessages([])
 		}, 200)
 		return () => {
-			clearInterval(timer)
+			clearTimeout(timer)
 		}
 	}, [clickMessages])
 

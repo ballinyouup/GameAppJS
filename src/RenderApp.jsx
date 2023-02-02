@@ -41,8 +41,8 @@ export default function RenderApp() {
 	}
 
 	function handleSaveMenu() {
-		idleMenu ? setIdleMenu(false) : null
-		clickMenu ? setClickMenu(false) : null
+		idleMenu && setIdleMenu(false)
+		clickMenu && setClickMenu(false)
 		setSaveMenu(!saveMenu)
 		setButtonVisible(saveMenu)
 	}
@@ -90,12 +90,27 @@ export default function RenderApp() {
 									key={index}
 									className="flex flex-row bg-gray-300 px-5 py-3"
 								>
-									<span className="mr-auto text-left">
+									<span className="mr-auto w-1/4 text-left">
 										Level: {upgrade.level}
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
 										<br />
 										Value: {FormatNumber(upgrade.value * 20)}
+										<br />
+										<div
+											className={
+												upgrade.level === 0 || upgrade.level === 10
+													? "hidden w-full bg-gray-800"
+													: "w-full bg-gray-800"
+											}
+										>
+											<div
+												className="h-4 bg-green-700"
+												style={{
+													width: upgrade.level * 10,
+												}}
+											/>
+										</div>
 									</span>
 									{upgrade.level > 9 ? (
 										<span className="h-fit rounded-xl bg-gray-800 p-2 text-right text-white">
@@ -124,15 +139,30 @@ export default function RenderApp() {
 									key={index}
 									className="flex flex-row bg-gray-300 px-5 py-3"
 								>
-									<span className="mr-auto w-fit text-left">
+									<span className="mr-auto w-1/4 text-left">
 										Level: {upgrade.level}
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
 										<br />
-										Value: {FormatNumber(upgrade.value)}
+										Value: {FormatNumber(upgrade.value * 20)}
+										<br />
+										<div
+											className={
+												upgrade.level === 0 || upgrade.level === 10
+													? "hidden w-full bg-gray-800"
+													: "w-full bg-gray-800"
+											}
+										>
+											<div
+												className="h-4 bg-green-700"
+												style={{
+													width: upgrade.level * 10,
+												}}
+											/>
+										</div>
 									</span>
 									{upgrade.level > 9 ? (
-										<span className="h-fit rounded-xl bg-gray-800 p-2 text-right text-white">
+										<span className="h-fit rounded-xl bg-green-800 p-2 text-right text-white">
 											MAX LEVEL
 										</span>
 									) : (
