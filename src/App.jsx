@@ -3,11 +3,9 @@ import RenderApp from "./RenderApp"
 
 export default function App() {
 	const INITIAL_IDLE = 0.05
-	const INITIAL_CLICK = 1
+	const INITIAL_CLICK = 500000
 	const INITIAL_IDLE_COST = 20
 	const INITIAL_CLICK_COST = 20
-	const playerHand = []
-	const numberOfCards = 2
 
 	const [score, setScore] = useState(0)
 	const [idleValue, setIdleValue] = useState(INITIAL_IDLE)
@@ -24,7 +22,7 @@ export default function App() {
 	function createClickStore(num) {
 		const store = []
 		for (
-			let i = clickStore.length === 0 ? 1 : clickStore.length - 1;
+			let i = clickStore.length === 0 ? 1 : clickStore.length + 1;
 			i <= clickStore.length + num;
 			i++
 		) {
@@ -45,7 +43,7 @@ export default function App() {
 	function createIdleStore(num) {
 		const store = []
 		for (
-			let i = idleStore.length === 0 ? 1 : idleStore.length - 1;
+			let i = idleStore.length === 0 ? 1 : idleStore.length + 1;
 			i <= idleStore.length + num;
 			i++
 		) {
@@ -122,11 +120,10 @@ export default function App() {
 			setScore(score - upgradeName.cost)
 			const updatedStore = idleStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level !== 0 && upgrade.level % 10 === 0) {
+					if (upgrade.level !== 0 && upgrade.level % 9 === 0) {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 1.25).toFixed(2),
-							value: Number(upgrade.value * 2).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					} else {
@@ -139,8 +136,14 @@ export default function App() {
 				}
 				return upgrade
 			})
-			setIdleValue(idleValue + upgradeName.value)
-			setIdleStore(updatedStore)
+
+			if (upgradeName.level === 9) {
+				setIdleValue(idleValue * 2)
+				setIdleStore(updatedStore)
+			} else {
+				setIdleValue(idleValue + upgradeName.value)
+				setIdleStore(updatedStore)
+			}
 		} else {
 			setMessage("Not enough Money")
 		}
@@ -151,7 +154,7 @@ export default function App() {
 			setScore(score - upgradeName.cost)
 			const updatedStore = clickStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level % 10 === 0 && upgrade.level != 0) {
+					if (upgrade.level != 0 && upgrade.level % 9 === 0) {
 						return {
 							...upgrade,
 							cost: Number(upgrade.cost * 1.25).toFixed(2),
