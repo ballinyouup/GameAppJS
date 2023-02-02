@@ -62,7 +62,7 @@ export default function RenderApp() {
 				{/* <----------------------------Center Row-------------------------------------> */}
 				<div className="flex h-full w-full flex-col items-center justify-end overflow-auto">
 					{/* <---------------------------Game Container-----------------------------------> */}
-					<div className="relative h-full w-full bg-purple-500"></div>
+					<div className="bg-[length:1000px_600px] relative h-full w-full animate-slideright bg-bg-main bg-repeat-x"></div>
 					{clickMessages.map((msg, index) => {
 						return (
 							<span
@@ -86,10 +86,7 @@ export default function RenderApp() {
 						/* Displays a button for each object in IdleStore */
 						<div className="z-20 flex h-full w-full flex-col p-3 text-sm">
 							{idleStore.map((upgrade, index) => (
-								<div
-									key={index}
-									className="flex flex-row bg-gray-300 px-5 py-3"
-								>
+								<div key={index} className="flex flex-row px-5 py-3">
 									<span className="mr-auto w-1/4 text-left">
 										Level: {upgrade.level}
 										<br />
@@ -113,7 +110,7 @@ export default function RenderApp() {
 										</div>
 									</span>
 									{upgrade.level > 9 ? (
-										<span className="h-fit rounded-xl bg-gray-800 p-2 text-right text-white">
+										<span className="h-fit rounded-xl bg-green-800 p-2 text-right text-white">
 											MAX LEVEL
 										</span>
 									) : (
@@ -135,10 +132,7 @@ export default function RenderApp() {
 						/* Displays a button for each object in ClickStore */
 						<div className="z-20 flex h-full w-full flex-col p-3 text-sm">
 							{clickStore.map((upgrade, index) => (
-								<div
-									key={index}
-									className="flex flex-row bg-gray-300 px-5 py-3"
-								>
+								<div key={index} className="flex flex-row px-5 py-3">
 									<span className="mr-auto w-1/4 text-left">
 										Level: {upgrade.level}
 										<br />
