@@ -22,7 +22,6 @@ export default function RenderApp({
 	deleteFile,
 	message,
 	setMessage,
-	
 }) {
 	function handleClickMenu() {
 		idleMenu && setIdleMenu(false)
@@ -93,7 +92,7 @@ export default function RenderApp({
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
 										<br />
-										Value: {upgrade.value * 20}
+										Value: {FormatNumber(upgrade.value * 20)}
 									</span>
 									{upgrade.level > 9 ? (
 										<span className="h-fit rounded-xl bg-gray-800 p-2 text-right text-white">
@@ -127,7 +126,7 @@ export default function RenderApp({
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
 										<br />
-										Value: {upgrade.value}
+										Value: {FormatNumber(upgrade.value)}
 									</span>
 									{upgrade.level > 9 ? (
 										<span className="h-fit rounded-xl bg-gray-800 p-2 text-right text-white">
