@@ -22,6 +22,7 @@ export default function RenderApp({
 	deleteFile,
 	message,
 	setMessage,
+	
 }) {
 	function handleClickMenu() {
 		idleMenu && setIdleMenu(false)
@@ -43,21 +44,23 @@ export default function RenderApp({
 		setSaveMenu(!saveMenu)
 		setButtonVisible(saveMenu)
 	}
+
 	return (
-		<div className="fixed flex h-full w-full flex-row justify-center gap-2 bg-black p-2 font-poppins font-medium">
-			<div className="flex w-full flex-col content-between bg-white p-0 ">
+		<div className="fixed flex h-full w-full flex-row justify-center gap-2 bg-black p-2 font-poppins font-medium md:items-center">
+			<div className="flex w-full flex-col content-between bg-white p-0 md:h-full md:w-1/2">
 				{/* <----------------------------Top Row-------------------------------------> */}
 				<div className="flex w-full flex-col items-center gap-2 bg-gradient-to-b from-cyan-600 to-blue-800 p-2">
 					<div className=" bg-gray h-fit w-fit rounded-xl p-2 text-white">
-						<h1>Score: {FormatNumber(score)}</h1>
+						<h1>Coins: {FormatNumber(score)}</h1>
 						<h1>{FormatNumber(idleValue * 20)} Coins/s </h1>
 						<h1>{FormatNumber(clickValue)} Coins/click</h1>
 					</div>
 				</div>
 
 				{/* <----------------------------Center Row-------------------------------------> */}
-				<div className="flex h-full w-full flex-col items-center justify-end overflow-scroll bg-white">
-					
+				<div className="flex h-full w-full flex-col items-center justify-end overflow-auto">
+					{/* <---------------------------Game Container-----------------------------------> */}
+					<div className="relative h-full w-full bg-purple-500"></div>
 					{clickMessages.map((msg, index) => {
 						return (
 							<span
@@ -92,14 +95,20 @@ export default function RenderApp({
 										<br />
 										Value: {upgrade.value * 20}
 									</span>
-									<button
-										className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"
-										onClick={() => {
-											handleIdleUpgrade(upgrade)
-										}}
-									>
-										Buy {upgrade.name}
-									</button>
+									{upgrade.level > 10 ? (
+										<span className="h-fit rounded-xl bg-gray-800 p-2 text-right text-white">
+											MAX LEVEL
+										</span>
+									) : (
+										<button
+											className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"
+											onClick={() => {
+												handleIdleUpgrade(upgrade)
+											}}
+										>
+											Buy {upgrade.name}
+										</button>
+									)}
 								</div>
 							))}
 						</div>
@@ -120,21 +129,27 @@ export default function RenderApp({
 										<br />
 										Value: {upgrade.value}
 									</span>
-									<button
-										className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"
-										onClick={() => {
-											handleClickUpgrade(upgrade)
-										}}
-									>
-										Buy {upgrade.name}
-									</button>
+									{upgrade.level > 10 ? (
+										<span className="h-fit rounded-xl bg-gray-800 p-2 text-right text-white">
+											MAX LEVEL
+										</span>
+									) : (
+										<button
+											className="w-24 rounded-xl bg-gray-600 p-2 text-right text-white"
+											onClick={() => {
+												handleClickUpgrade(upgrade)
+											}}
+										>
+											Buy {upgrade.name}
+										</button>
+									)}
 								</div>
 							))}
 						</div>
 					)}
 
 					{saveMenu && (
-						<div className="absolute bottom-12 z-20 flex h-1/2 w-full flex-col bg-gray-500 p-3 text-sm md:bottom-16 md:h-[360px] md:w-[580px]">
+						<div className="fixed z-20 flex h-1/2 w-11/12 flex-col bg-gray-500 p-3 text-sm sm:w-2/5">
 							<button
 								className="rounded-xl bg-gray-600 p-2 text-center text-white"
 								onClick={saveFile}

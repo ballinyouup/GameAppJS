@@ -4,16 +4,16 @@ import RenderApp from "./RenderApp"
 export default function App() {
 	const INITIAL_IDLE = 0.05
 	const INITIAL_CLICK = 1
-	const INITIAL_CLICKMSG_LENGTH = 10
 	const INITIAL_IDLE_COST = 20
 	const INITIAL_CLICK_COST = 20
+	const playerHand = []
+	const numberOfCards = 2
 
 	const [score, setScore] = useState(0)
 	const [idleValue, setIdleValue] = useState(INITIAL_IDLE)
 	const [clickValue, setClickValue] = useState(INITIAL_CLICK)
 	const [message, setMessage] = useState("")
 	const [clickMessages, setClickMessages] = useState([])
-	const clickMessagesLength = INITIAL_CLICKMSG_LENGTH
 	const [idleMenu, setIdleMenu] = useState(false)
 	const [clickMenu, setClickMenu] = useState(false)
 	const [saveMenu, setSaveMenu] = useState(false)
@@ -31,7 +31,7 @@ export default function App() {
 			store.push({
 				name: `Click Upgrade ${i}`,
 				cost: INITIAL_CLICK_COST * Math.pow(10, i - 1),
-				value: Math.pow(5, i - 1),
+				value: Math.pow(10, i - 1),
 				level: 0,
 			})
 		}
@@ -52,7 +52,7 @@ export default function App() {
 			store.push({
 				name: `Idle Upgrade ${i}`,
 				cost: INITIAL_IDLE_COST * Math.pow(10, i - 1),
-				value: Math.pow(5, i - 1) / 20,
+				value: Math.pow(10, i - 1) / 20,
 				level: 0,
 			})
 		}
@@ -122,17 +122,17 @@ export default function App() {
 			setScore(score - upgradeName.cost)
 			const updatedStore = idleStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level !== 0 && upgrade.level % 20 === 0) {
+					if (upgrade.level !== 0 && upgrade.level % 10 === 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.5).toFixed(2),
+							cost: Number(upgrade.cost * 1.25).toFixed(2),
 							value: Number(upgrade.value * 2).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					} else {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.5).toFixed(2),
+							cost: Number(upgrade.cost * 1.25).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					}
@@ -151,17 +151,17 @@ export default function App() {
 			setScore(score - upgradeName.cost)
 			const updatedStore = clickStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level % 20 === 0 && upgrade.level != 0) {
+					if (upgrade.level % 10 === 0 && upgrade.level != 0) {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.5).toFixed(2),
+							cost: Number(upgrade.cost * 1.25).toFixed(2),
 							value: Number(upgrade.value * 2).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					} else {
 						return {
 							...upgrade,
-							cost: Number(upgrade.cost * 1.5).toFixed(2),
+							cost: Number(upgrade.cost * 1.25).toFixed(2),
 							level: upgrade.level + 1,
 						}
 					}
@@ -228,12 +228,9 @@ export default function App() {
 	}, [score])
 
 	useEffect(() => {
-		const timer = setInterval(
-			() => {
-				setClickMessages(clickMessages.slice(1))
-			},
-			clickMessages.length <= clickMessagesLength ? 200 : 100
-		)
+		const timer = setInterval(() => {
+			setClickMessages(clickMessages.slice(1))
+		}, 200)
 		return () => {
 			clearInterval(timer)
 		}
