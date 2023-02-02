@@ -1,28 +1,31 @@
-export default function RenderApp({
-	score,
-	idleValue,
-	FormatNumber,
-	clickValue,
-	clickMessages,
-	buttonVisible,
-	setButtonVisible,
-	idleMenu,
-	setIdleMenu,
-	clickMenu,
-	setClickMenu,
-	saveMenu,
-	setSaveMenu,
-	handleClick,
-	handleClickUpgrade,
-	handleIdleUpgrade,
-	idleStore,
-	clickStore,
-	saveFile,
-	loadFile,
-	deleteFile,
-	message,
-	setMessage,
-}) {
+import { useGameHandler } from "./useGameHandler"
+
+export default function RenderApp() {
+	const {
+		score,
+		idleValue,
+		clickValue,
+		message,
+		setMessage,
+		clickMessages,
+		idleMenu,
+		setIdleMenu,
+		clickMenu,
+		setClickMenu,
+		saveMenu,
+		setSaveMenu,
+		idleStore,
+		clickStore,
+		buttonVisible,
+		setButtonVisible,
+		handleClick,
+		FormatNumber,
+		handleIdleUpgrade,
+		handleClickUpgrade,
+		saveFile,
+		loadFile,
+		deleteFile,
+	} = useGameHandler()
 	function handleClickMenu() {
 		idleMenu && setIdleMenu(false)
 		saveMenu && setSaveMenu(false)
