@@ -3,7 +3,7 @@ import RenderApp from "./RenderApp"
 
 export default function App() {
 	const INITIAL_IDLE = 0.05
-	const INITIAL_CLICK = 500000
+	const INITIAL_CLICK = 1
 	const INITIAL_IDLE_COST = 20
 	const INITIAL_CLICK_COST = 20
 
