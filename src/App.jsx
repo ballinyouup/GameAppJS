@@ -120,18 +120,10 @@ export default function App() {
 			setScore(score - upgradeName.cost)
 			const updatedStore = idleStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level !== 0 && upgrade.level % 9 === 0) {
-						return {
-							...upgrade,
-							cost: Number(upgrade.cost * 1.25).toFixed(2),
-							level: upgrade.level + 1,
-						}
-					} else {
-						return {
-							...upgrade,
-							cost: Number(upgrade.cost * 1.25).toFixed(2),
-							level: upgrade.level + 1,
-						}
+					return {
+						...upgrade,
+						cost: Number(upgrade.cost * 1.25).toFixed(2),
+						level: upgrade.level + 1,
 					}
 				}
 				return upgrade
@@ -154,25 +146,21 @@ export default function App() {
 			setScore(score - upgradeName.cost)
 			const updatedStore = clickStore.map((upgrade) => {
 				if (upgrade === upgradeName) {
-					if (upgrade.level != 0 && upgrade.level % 9 === 0) {
-						return {
-							...upgrade,
-							cost: Number(upgrade.cost * 1.25).toFixed(2),
-							value: Number(upgrade.value * 2).toFixed(2),
-							level: upgrade.level + 1,
-						}
-					} else {
-						return {
-							...upgrade,
-							cost: Number(upgrade.cost * 1.25).toFixed(2),
-							level: upgrade.level + 1,
-						}
+					return {
+						...upgrade,
+						cost: Number(upgrade.cost * 1.25).toFixed(2),
+						level: upgrade.level + 1,
 					}
 				}
 				return upgrade
 			})
-			setClickValue(clickValue + upgradeName.value)
-			setClickStore(updatedStore)
+			if (upgradeName.level === 9) {
+				setClickValue(clickValue * 2)
+				setClickStore(updatedStore)
+			} else {
+				setClickValue(clickValue + upgradeName.value)
+				setClickStore(updatedStore)
+			}
 		} else setMessage("Not enough Money")
 	}
 

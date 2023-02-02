@@ -129,7 +129,7 @@ export default function RenderApp({
 										<br />
 										Value: {upgrade.value}
 									</span>
-									{upgrade.level > 10 ? (
+									{upgrade.level > 9 ? (
 										<span className="h-fit rounded-xl bg-gray-800 p-2 text-right text-white">
 											MAX LEVEL
 										</span>
