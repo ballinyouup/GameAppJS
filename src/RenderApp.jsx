@@ -62,7 +62,7 @@ export default function RenderApp() {
 				{/* <----------------------------Center Row-------------------------------------> */}
 				<div className="flex h-full w-full flex-col items-center justify-end overflow-auto">
 					{/* <---------------------------Game Container-----------------------------------> */}
-					<div className="bg-[length:1000px_600px] relative h-full w-full animate-slideright bg-bg-main bg-repeat-x"></div>
+					<div className="relative h-full w-full animate-slideright bg-bg-main bg-[length:1000px_600px] bg-repeat-x"></div>
 					{clickMessages.map((msg, index) => {
 						return (
 							<span
@@ -87,7 +87,7 @@ export default function RenderApp() {
 						<div className="z-20 flex h-full w-full flex-col p-3 text-sm">
 							{idleStore.map((upgrade, index) => (
 								<div key={index} className="flex flex-row px-5 py-3">
-									<span className="mr-auto w-1/4 text-left">
+									<span className="mr-auto w-1/2 text-left">
 										Level: {upgrade.level}
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
@@ -104,7 +104,7 @@ export default function RenderApp() {
 											<div
 												className="h-4 bg-green-700"
 												style={{
-													width: upgrade.level * 10,
+													width: `${upgrade.level * 10}%`,
 												}}
 											/>
 										</div>
@@ -133,12 +133,12 @@ export default function RenderApp() {
 						<div className="z-20 flex h-full w-full flex-col p-3 text-sm">
 							{clickStore.map((upgrade, index) => (
 								<div key={index} className="flex flex-row px-5 py-3">
-									<span className="mr-auto w-1/4 text-left">
+									<span className="mr-auto w-1/2 text-left">
 										Level: {upgrade.level}
 										<br />
 										Price: {FormatNumber(upgrade.cost)}
 										<br />
-										Value: {FormatNumber(upgrade.value * 20)}
+										Value: {FormatNumber(upgrade.value)}
 										<br />
 										<div
 											className={
@@ -150,7 +150,7 @@ export default function RenderApp() {
 											<div
 												className="h-4 bg-green-700"
 												style={{
-													width: upgrade.level * 10,
+													width: `${upgrade.level * 10}%`,
 												}}
 											/>
 										</div>
